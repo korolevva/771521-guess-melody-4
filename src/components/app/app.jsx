@@ -1,15 +1,32 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {Switch, Route, BrowserRouter} from "react-router-dom";
 import WelcomeScreen from "../welcom-screen/welcome-screen.jsx";
+import GenreQuestionScreen from "../genre-question-screen/genre-question-screen.jsx";
 
 const welcomeButtonHandler = () => {};
 
-const App = ({errorsCount}) => {
+const App = ({errorsCount, questions}) => {
   return (
-    <WelcomeScreen
-      errorsCount={errorsCount}
-      onWelcomeButtonClick={welcomeButtonHandler}
-    />
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/">
+          <WelcomeScreen
+            errorsCount={errorsCount}
+            onWelcomeButtonClick={welcomeButtonHandler}
+          />
+        </Route>
+        {/* <Route exact path="/dev-artist">
+          <ArtistQuestionScreen />
+        </Route> */}
+        <Route exact path="/dev-genre">
+          <GenreQuestionScreen
+            question={questions[0]}
+            onAnswer={() => {}}
+          />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 };
 

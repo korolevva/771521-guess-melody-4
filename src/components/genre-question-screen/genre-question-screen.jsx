@@ -2,9 +2,10 @@ import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {GameType} from "../../const.js";
 
-className GenreQuestionScreen extends PureComponent {
+class GenreQuestionScreen extends PureComponent {
   constructor(props) {
     super(props);
+
     this.state = {
       answers: [false, false, false, false],
     };
@@ -18,7 +19,7 @@ className GenreQuestionScreen extends PureComponent {
       genre,
     } = question;
 
-    return(
+    return (
       <section className="game game--genre">
         <header className="game__header">
           <a className="game__back" href="#">
@@ -28,20 +29,22 @@ className GenreQuestionScreen extends PureComponent {
 
           <svg xmlns="http://www.w3.org/2000/svg" className="timer" viewBox="0 0 780 780">
             <circle className="timer__line" cx="390" cy="390" r="370"
-                    style="filter: url(#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"/>
+              style={{filter: `url(#blur)`, transform: `rotate(-90deg) scaleY(-1)`, transformOrigin: `center`}}/>
           </svg>
 
           <div className="game__mistakes">
-            <div className="wrong"></div>
-            <div className="wrong"></div>
-            <div className="wrong"></div>
+            <div className="wrong"/>
+            <div className="wrong"/>
+            <div className="wrong"/>
           </div>
         </header>
 
         <section className="game__screen">
           <h2 className="game__title">Выберите {genre} треки</h2>
-          <form className="game__tracks">
-          {answers.map((answer, i) => (
+          <form
+            className="game__tracks"
+          >
+            {answers.map((answer, i) => (
               <div key={`${i}-${answer.src}`} className="track">
                 <button className="track__button track__button--play" type="button"/>
                 <div className="track__status">
@@ -66,7 +69,7 @@ className GenreQuestionScreen extends PureComponent {
               </div>
             ))}
 
-            {/* <button className="game__submit button" type="submit">Ответить</button> */}
+            <button className="game__submit button" type="submit">Ответить</button>
           </form>
         </section>
       </section>
@@ -74,7 +77,7 @@ className GenreQuestionScreen extends PureComponent {
   }
 }
 
-GenreQuestionScreen.PropTypes = {
+GenreQuestionScreen.propTypes = {
   onAnswer: PropTypes.func.isRequired,
   question: PropTypes.shape({
     answers: PropTypes.arrayOf(PropTypes.shape({
@@ -83,7 +86,8 @@ GenreQuestionScreen.PropTypes = {
     })).isRequired,
     genre: PropTypes.string.isRequired,
     type: PropTypes.oneOf([GameType.ARTIST, GameType.GENRE]).isRequired,
-  }).isRequired
+  }).isRequired,
 };
+
 
 export default GenreQuestionScreen;
