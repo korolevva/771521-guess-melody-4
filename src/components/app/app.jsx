@@ -8,15 +8,15 @@ import {GameType} from "../../const.js";
 
 const App = ({errorsCount, questions}) => {
   const [step, useStep] = useState(-1);
+  const question = questions[step];
 
   const renderGameScreen = () => {
-    const question = questions[step];
-
+    console.log(step);
     if (step === -1 || step >= questions.length) {
       return (
         <WelcomeScreen
           errorsCount={errorsCount}
-          onWelcomeButtonClick={() => useStep(step + 1)}
+          onWelcomeButtonClick={() => useStep(0)}
         />
       );
     }
