@@ -7,16 +7,15 @@ import ArtistQuestionScreen from "../artist-question-screen/artist-question-scre
 import {GameType} from "../../const.js";
 
 const App = ({errorsCount, questions}) => {
-  const [step, useStep] = useState(-1);
+  const [step, setStep] = useState(-1);
   const question = questions[step];
 
   const renderGameScreen = () => {
-    console.log(step);
     if (step === -1 || step >= questions.length) {
       return (
         <WelcomeScreen
           errorsCount={errorsCount}
-          onWelcomeButtonClick={() => useStep(0)}
+          onWelcomeButtonClick={() => setStep(0)}
         />
       );
     }
@@ -27,14 +26,14 @@ const App = ({errorsCount, questions}) => {
           return (
             <ArtistQuestionScreen
               question={question}
-              onAnswer={() => useStep(step + 1)}
+              onAnswer={() => setStep(step + 1)}
             />
           );
         case GameType.GENRE:
           return (
             <GenreQuestionScreen
               question={question}
-              onAnswer={() => useStep(step + 1)}
+              onAnswer={() => setStep(step + 1)}
             />
           );
       }
