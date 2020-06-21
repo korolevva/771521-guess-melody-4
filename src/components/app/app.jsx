@@ -16,9 +16,7 @@ class App extends PureComponent {
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            <WelcomeScreen
-              errorsCount={errorsCount}
-            />
+            {this._renderGameScreen()}
           </Route>
           <Route exact path="/dev-artist">
             <ArtistQuestionScreen
