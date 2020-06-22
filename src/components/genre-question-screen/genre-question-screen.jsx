@@ -49,7 +49,9 @@ const GenreQuestionScreen = ({onAnswer, question}) => {
                   checked={userAnswers[i]}
                   onChange={(evt) => {
                     const value = evt.target.checked;
-                    setUserAnswers([...userAnswers.slice(0, i), value, ...userAnswers.slice(i + 1)]);
+                    const newUserAnswers = [...userAnswers];
+                    newUserAnswers[i] = value;
+                    setUserAnswers(newUserAnswers);
                   }}
                 />
                 <label className="game__check" htmlFor={`answer-${i}`}>Отметить</label>
