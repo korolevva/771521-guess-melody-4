@@ -1,14 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import PropTypes from "prop-types";
 import {GameType} from "../../const.js";
 import AudioPlayer from "../audio-player/audio-player.jsx";
 
 const ArtistQuestionScreen = (props) => {
+  const [isPlaying, setIsPlaying] = useState(true);
   const {onAnswer, question} = props;
-  const {
-    answers,
-    song,
-  } = question;
+  const {answers, song} = question;
 
   return (
     <section className="game__screen">
@@ -16,8 +14,9 @@ const ArtistQuestionScreen = (props) => {
       <div className="game__track">
         <div className="track">
           <AudioPlayer
-            isPlaying={true}
+            isPlaying={isPlaying}
             src={song.src}
+            onPlayButtonClick={() => setIsPlaying(!isPlaying)}
           />
         </div>
       </div>

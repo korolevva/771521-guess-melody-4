@@ -5,6 +5,7 @@ import AudioPlayer from "../audio-player/audio-player.jsx";
 
 const GenreQuestionScreen = ({onAnswer, question}) => {
   const [userAnswers, setUserAnswers] = useState([false, false, false, false]);
+  const [activePlayer, setActivePlayer] = useState(0);
   const {answers, genre} = question;
 
   return (
@@ -20,7 +21,8 @@ const GenreQuestionScreen = ({onAnswer, question}) => {
         {answers.map((answer, i) => (
           <div key={`${i}-${answer.src}`} className="track">
             <AudioPlayer
-              isPlaying={i === 0}
+              onPlayButtonClick={() => setActivePlayer(activePlayer === i ? -1 : i)}
+              isPlaying={i === activePlayer}
               src={answer.src}
             />
             <div className="game__answer">
