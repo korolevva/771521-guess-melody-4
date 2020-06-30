@@ -1,11 +1,9 @@
 import React, {useState} from "react";
 import PropTypes from "prop-types";
 import {GameType} from "../../const.js";
-import AudioPlayer from "../audio-player/audio-player.jsx";
 
-const GenreQuestionScreen = ({onAnswer, question}) => {
+const GenreQuestionScreen = ({onAnswer, question, renderPlayer}) => {
   const [userAnswers, setUserAnswers] = useState([false, false, false, false]);
-  const [activePlayer, setActivePlayer] = useState(0);
   const {answers, genre} = question;
 
   return (
@@ -20,11 +18,7 @@ const GenreQuestionScreen = ({onAnswer, question}) => {
       >
         {answers.map((answer, i) => (
           <div key={`${i}-${answer.src}`} className="track">
-            <AudioPlayer
-              onPlayButtonClick={() => setActivePlayer(activePlayer === i ? -1 : i)}
-              isPlaying={i === activePlayer}
-              src={answer.src}
-            />
+            {renderPlayer(answer.src, i)}
             <div className="game__answer">
               <input className="game__input visually-hidden" type="checkbox" name="answer" value={`answer-${i}`}
                 id={`answer-${i}`}
@@ -57,6 +51,7 @@ GenreQuestionScreen.propTypes = {
     genre: PropTypes.string.isRequired,
     type: PropTypes.oneOf([GameType.ARTIST, GameType.GENRE]).isRequired,
   }).isRequired,
+  renderPlayer: PropTypes.func.isRequired,
 };
 
 

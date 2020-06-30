@@ -6,6 +6,10 @@ import GenreQuestionScreen from "../genre-question-screen/genre-question-screen.
 import ArtistQuestionScreen from "../artist-question-screen/artist-question-screen.jsx";
 import GameScreen from "../game-screen/game-screen.jsx";
 import {GameType} from "../../const.js";
+import withAudioPlayer from "../../hocs/with-audio-player/with-audio-player.js";
+
+const GenreQuestionScreenWrapped = withAudioPlayer(GenreQuestionScreen);
+const ArtistQuestionScreenWrapped = withAudioPlayer(ArtistQuestionScreen);
 
 const App = ({errorsCount, questions}) => {
   const [step, setStep] = useState(-1);
@@ -28,7 +32,7 @@ const App = ({errorsCount, questions}) => {
             <GameScreen
               type={question.type}
             >
-              <ArtistQuestionScreen
+              <ArtistQuestionScreenWrapped
                 question={question}
                 onAnswer={() => setStep(step + 1)}
               />
@@ -39,7 +43,7 @@ const App = ({errorsCount, questions}) => {
             <GameScreen
               type={question.type}
             >
-              <GenreQuestionScreen
+              <GenreQuestionScreenWrapped
                 question={question}
                 onAnswer={() => setStep(step + 1)}
               />
@@ -58,13 +62,13 @@ const App = ({errorsCount, questions}) => {
           {renderGameScreen()}
         </Route>
         <Route exact path="/dev-artist">
-          <ArtistQuestionScreen
+          <ArtistQuestionScreenWrapped
             question={questions[1]}
             onAnswer={() => {}}
           />
         </Route>
         <Route exact path="/dev-genre">
-          <GenreQuestionScreen
+          <GenreQuestionScreenWrapped
             question={questions[0]}
             onAnswer={() => {}}
           />
