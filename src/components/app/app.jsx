@@ -16,7 +16,7 @@ const App = ({errorsCount, questions}) => {
   const question = questions[step];
 
   const renderGameScreen = () => {
-    if (step === -1 || step >= questions.length) {
+    if (!question) {
       return (
         <WelcomeScreen
           errorsCount={errorsCount}
