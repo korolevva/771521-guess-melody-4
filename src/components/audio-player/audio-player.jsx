@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 
 const AudioPlayer = (props) => {
   const {onPlayButtonClick} = props;
-  const [progress, setProgress] = useState(0);
+
+  // const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(props.isPlaying);
 
@@ -24,10 +25,8 @@ const AudioPlayer = (props) => {
 
     audio.onpause = () => setIsPlaying(false);
 
-    audio.ontimeupdate = () => {
-      progress = audio.currentTime;
-      setProgress(progress);
-    };
+    // audio.ontimeupdate = () => setProgress(audio.currentTime);
+
     return () => {
       audio.oncanplaythrough = null;
       audio.onplay = null;

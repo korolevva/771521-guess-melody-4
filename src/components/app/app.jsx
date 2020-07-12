@@ -1,6 +1,8 @@
-import React, {useState} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {connect} from "react-redux";
+import {ActionCreator} from "../../reducer.js";
 import WelcomeScreen from "../welcom-screen/welcome-screen.jsx";
 import GenreQuestionScreen from "../genre-question-screen/genre-question-screen.jsx";
 import ArtistQuestionScreen from "../artist-question-screen/artist-question-screen.jsx";
@@ -11,16 +13,15 @@ import withAudioPlayer from "../../hocs/with-audio-player/with-audio-player.js";
 const GenreQuestionScreenWrapped = withAudioPlayer(GenreQuestionScreen);
 const ArtistQuestionScreenWrapped = withAudioPlayer(ArtistQuestionScreen);
 
-const App = ({errorsCount, questions}) => {
-  const [step, setStep] = useState(-1);
+const App = ({maxMistakes, questions, onUserAnswer, onWelcomeButtonClick, step}) => {
   const question = questions[step];
 
   const renderGameScreen = () => {
     if (!question) {
       return (
         <WelcomeScreen
-          errorsCount={errorsCount}
-          onWelcomeButtonClick={() => setStep(0)}
+          errorsCount={maxMistakes}
+          onWelcomeButtonClick={onWelcomeButtonClick}
         />
       );
     }
@@ -34,7 +35,7 @@ const App = ({errorsCount, questions}) => {
             >
               <ArtistQuestionScreenWrapped
                 question={question}
-                onAnswer={() => setStep(step + 1)}
+                onAnswer={onUserAnswer}
               />
             </GameScreen>
           );
@@ -45,7 +46,7 @@ const App = ({errorsCount, questions}) => {
             >
               <GenreQuestionScreenWrapped
                 question={question}
-                onAnswer={() => setStep(step + 1)}
+                onAnswer={onUserAnswer}
               />
             </GameScreen>
           );
@@ -79,8 +80,28 @@ const App = ({errorsCount, questions}) => {
 };
 
 App.propTypes = {
-  errorsCount: PropTypes.number.isRequired,
+  maxMistakes: PropTypes.number.isRequired,
   questions: PropTypes.array.isRequired,
+  onUserAnswer: PropTypes.func.isRequired,
+  onWelcomeButtonClick: PropTypes.func.isRequired,
+  step: PropTypes.number.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  step: state.step,
+  maxMistakes: state.maxMistakes,
+  questions: state.questions,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onWelcomeButtonClick() {
+    dispatch(ActionCreator.incrementStep());
+  },
+  onUserAnswer(question, answer) {
+    dispatch(ActionCreator.incrementMistake(question, answer));
+    dispatch(ActionCreator.incrementStep());
+  }
+});
+
+export {App};
+export default connect(mapStateToProps, mapDispatchToProps)(App);
