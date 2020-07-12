@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 const AudioPlayer = (props) => {
   const {onPlayButtonClick} = props;
+
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(props.isPlaying);
