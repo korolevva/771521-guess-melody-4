@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+import React from "react";
 import PropTypes from "prop-types";
+import GenreQuestionItem from "../genre-question-item/genre-question-item.jsx";
 import {GameType} from "../../const.js";
 
-const GenreQuestionScreen = ({onAnswer, question, renderPlayer}) => {
-  const [userAnswers, setUserAnswers] = useState([false, false, false, false]);
+const GenreQuestionScreen = ({onAnswer, onChange, question, renderPlayer, userAnswers}) => {
   const {answers, genre} = question;
 
   return (
@@ -13,26 +13,18 @@ const GenreQuestionScreen = ({onAnswer, question, renderPlayer}) => {
         className="game__tracks"
         onSubmit={(evt) => {
           evt.preventDefault();
-          onAnswer(question, userAnswers);
+          onAnswer();
         }}
       >
         {answers.map((answer, i) => (
-          <div key={`${i}-${answer.src}`} className="track">
-            {renderPlayer(answer.src, i)}
-            <div className="game__answer">
-              <input className="game__input visually-hidden" type="checkbox" name="answer" value={`answer-${i}`}
-                id={`answer-${i}`}
-                checked={userAnswers[i]}
-                onChange={(evt) => {
-                  const value = evt.target.checked;
-                  const newUserAnswers = [...userAnswers];
-                  newUserAnswers[i] = value;
-                  setUserAnswers(newUserAnswers);
-                }}
-              />
-              <label className="game__check" htmlFor={`answer-${i}`}>Отметить</label>
-            </div>
-          </div>
+          <GenreQuestionItem
+            answer={answer}
+            id={i}
+            key={`${i}-${answer.src}`}
+            onChange={onChange}
+            renderPlayer={renderPlayer}
+            userAnswer={userAnswers[i]}
+          />
         ))}
 
         <button className="game__submit button" type="submit">Ответить</button>
@@ -43,6 +35,7 @@ const GenreQuestionScreen = ({onAnswer, question, renderPlayer}) => {
 
 GenreQuestionScreen.propTypes = {
   onAnswer: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   question: PropTypes.shape({
     answers: PropTypes.arrayOf(PropTypes.shape({
       src: PropTypes.string.isRequired,
@@ -52,6 +45,7 @@ GenreQuestionScreen.propTypes = {
     type: PropTypes.oneOf([GameType.ARTIST, GameType.GENRE]).isRequired,
   }).isRequired,
   renderPlayer: PropTypes.func.isRequired,
+  userAnswers: PropTypes.arrayOf(PropTypes.bool).isRequired
 };
 
 
