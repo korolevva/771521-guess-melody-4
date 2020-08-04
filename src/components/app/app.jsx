@@ -38,7 +38,6 @@ const App = ({maxMistakes, mistakes, questions, onUserAnswer, onWelcomeButtonCli
     }
 
     if (step >= questions.length) {
-      console.log(mistakes);
       return (
         <WinScreen
           questionsCount={questions.length}
